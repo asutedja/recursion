@@ -12,7 +12,7 @@ var parseJSON = function(json) {
     return char;
   };
   var white = function(){
-    if (char && char === ' '){
+    while (char && char <= ' '){// would like to know why <= over ===
       next();
     }
   };
@@ -150,6 +150,7 @@ var parseJSON = function(json) {
     if(char === '{'){
       next();
       white();
+
       if (char === '}'){
         next();
         return obj;
@@ -157,7 +158,6 @@ var parseJSON = function(json) {
     }
     while(char){
       var key = string();
-      console.log(key);
       white();
       next();
       obj[key] = result();
@@ -177,12 +177,30 @@ var parseJSON = function(json) {
   return result();
 };
 
-var a =     '{ "firstName": "John", "lastName" : "Smith", "age" : ' +
-    '25, "address" : { "streetAddress": "21 2nd Street", ' +
-    '"city" : "New York", "state" : "NY", "postalCode" : ' +
-    ' "10021" }, "phoneNumber": [ { "type" : "home", ' +
-    '"number": "212 555-1234" }, { "type" : "fax", ' +
-    '"number": "646 555-4567" } ] }'
+var a =     '{\r\n' +
+    '          "glossary": {\n' +
+    '              "title": "example glossary",\n\r' +
+    '      \t\t"GlossDiv": {\r\n' +
+    '                  "title": "S",\r\n' +
+    '      \t\t\t"GlossList": {\r\n' +
+    '                      "GlossEntry": {\r\n' +
+    '                          "ID": "SGML",\r\n' +
+    '      \t\t\t\t\t"SortAs": "SGML",\r\n' +
+    '      \t\t\t\t\t"GlossTerm": "Standard Generalized ' +
+    'Markup Language",\r\n' +
+    '      \t\t\t\t\t"Acronym": "SGML",\r\n' +
+    '      \t\t\t\t\t"Abbrev": "ISO 8879:1986",\r\n' +
+    '      \t\t\t\t\t"GlossDef": {\r\n' +
+    '                              "para": "A meta-markup language,' +
+    ' used to create markup languages such as DocBook.",\r\n' +
+    '      \t\t\t\t\t\t"GlossSeeAlso": ["GML", "XML"]\r\n' +
+    '                          },\r\n' +
+    '      \t\t\t\t\t"GlossSee": "markup"\r\n' +
+    '                      }\r\n' +
+    '                  }\r\n' +
+    '              }\r\n' +
+    '          }\r\n' +
+    '      }\r\n'
 console.log(JSON.parse(a));
 console.log("Ours")
 console.log(parseJSON(a));
